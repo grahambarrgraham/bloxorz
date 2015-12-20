@@ -1,0 +1,19 @@
+x  x  x  x  x  x  x  x  x  x  x  p  p  p x1
+x  p  p  p  x  x  x  x  S1 x  x  p  e  p x1
+x  p  p  p  p3 p3 p  p  p  x3 x3 p  p  p x1
+x  p  p  p  x  x  p  p  p  x  x  x  p  x x
+x  w  w  w  x  x  W1 p  p  x  x  x  w  x x
+x  x  w  x  x  x  p  p  p  x  x  w  w  w x
+x  x  p  x  x  x  p  p  p  x  x  p  p  p x
+p2 p  p  p  x2 x2 p  W2 p  p1 p1 p  s  p x
+p2 p  S2 p  x  x  S3 x  x  x  x  p  p  p x
+p2 p  p  p  x  x  x  x  x  x  x  x  x  x x
+-----
+W2 closes p1, x2, p3, x3
+W1 closes p1, x2, p3, x3
+S1 toggles x3
+S3 toggles x2
+S2 opens x1
+S2 closes p3
+
+

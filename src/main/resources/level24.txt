@@ -1,0 +1,17 @@
+x  x  x  x  x  x  x  x  x  x  p  p  p  p
+x  x  x  x2 p  p  p  p  p  p  p  S1 p  t1
+x  s  x1 x1 p  S2 p  x  x  x  p  p  p  p
+S3 p  x  x  p  p  x  x  x  x  x  x  p  x
+p  p  x  x  p  x  x  x  x  x  x  x  p  x
+p  p  p  p  p  x  x  x  x  x  p  p  p  x
+p  p  p  x  x  l1 p  l2 x4 x4 p  e  p  x
+x  x  x  x  x  S4 p  x3 x  x  p  p  p  x
+x  x  x  x  x  x  x  x  x  x  x  x  x  x
+-----
+t1 teleports l1, l2
+S1 toggles x1
+S3 opens x2
+S2 opens x3
+S4 opens x4
+
+

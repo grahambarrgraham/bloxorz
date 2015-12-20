@@ -1,0 +1,9 @@
+x x x w w w w w w w x x x x 
+x x x w w w w w w w x x x x 
+p p p p x x x x x p p p x x
+p p p x x x x x x x p p x x 
+p p p x x x x x x x p p x x
+p s p x x p p p p w w w w w
+p p p x x p p p p w w w w w
+x x x x x p e p x x w w p w
+x x x x x p p p x x w w w w

@@ -1,0 +1,18 @@
+x x x x x x x x x x x x x x x x x x x x x x x x x x
+x p p p p p p p p p p p p p p p p p p p p p p t3 p x
+x p p p l1 p p p p p p p p p p p p p l3 p p p p p p x
+x p p p p p p p p p p w w p p p p p p p p p p p p x
+x p p p p p p p p e S1 s p t1 p p p p p p p t2 p p p x
+x p p p p p p p p x x W2 W3 p p p p p p p p p p p p x
+x p p p2 p p p p p p p p p p p p p p p p p p p p p x
+x p p p p p p p p p p p p p p p p p p p p p p p p x
+x p p p p l1 p p p p p l2 p l2 p p l2 p p p p p p p p x
+p t4 x x x x x x x x x x x x x x x x x x x x x x x x
+----
+S1 closes p2
+W2 toggles p3
+W3 closes p1,x1,x2
+t1 teleports l1
+t2 teleports l2
+t3 teleports l3
+t4 teleports l3

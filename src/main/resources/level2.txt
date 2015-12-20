@@ -1,0 +1,9 @@
+x x x  x  x  x  p p p  p x  x  p p p 
+p p p  p  x  x  p p S2 p x  x  p e p 
+p p W1 p  x  x  p p p  p x  x  p p p 
+p p p  p  x  x  p p p  p x  x  p p p 
+p s p  p  x1 x1 p p p  p x2 x2 p p p 
+p p p  p  x  x  p p p  p x  x  x x x 
+----
+W1 toggles x1
+S2 toggles x2

@@ -1,0 +1,5 @@
+p p  p x p l1 p
+s p  p x p p  e
+p t1 p x p l1 p
+----
+t1 teleports l1

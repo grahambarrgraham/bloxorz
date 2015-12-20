@@ -1,0 +1,13 @@
+x x x x x x x x p p p x x x
+x x x p p p x x p p p x x x
+p x1 x1 p s p p p p p p p p p
+p x2 x2 p p p x x x x x x S1 p
+p x x x x x x x x x x x p p
+p x x x x x x x x x x x p p
+p x x x x x x x p p p p p p
+p p p p p x x x p p p x x x
+x p p e p x x x p p p x x x
+x x p p p x x x p p p p p S2
+------
+S1 toggles x1
+S2 toggles x2

@@ -1,0 +1,14 @@
+p  p  p  x  x  x  x  p  p  p  p  p  p  p  p  
+p  s  p  p  p  p  p  p  p  p  p  x  x  p  p
+p  p  p  x  x  x  x  p  p  x  x  x  x  p  p
+x  x  x  x  x  x  x  x  x  x  x  x  p  S1 p
+x  x  x  x  x  x  x  x  x  x  x  x  p  p  x
+p  p  p  x  x  w  w  w  w  p  x  x  W1 W2 x
+p  e  p  w  w  w  w  w  w  w  x  x  p  p  p
+p  p  p  w  w  w  w  w  w  w  w  w  p  p  p
+x  x  x  x  x  w  w  w  w  w  w  w  p  p  p
+x  x  x  x  x  x  p1 p  p  p2 x  x  x  x  x
+---
+S1 closes p1, p2
+W2 closes p2
+W1 closes p1

@@ -1,0 +1,11 @@
+x x x x x  x x x x p p  p x x x
+x x x x x  x x x x p l1 p x x x
+x x x x x  x x x x p p  p x x x
+p p p p p  p x x x p p  p p p p 
+p s p p t1 p x x x p p  p p e p 
+p p p p p  p x x x p p  p p p p 
+x x x x x  x x x x p p  p x x x
+x x x x x  x x x x p l1 p x x x
+x x x x x  x x x x p p  p x x x
+------
+t1 teleports l1

@@ -1,0 +1,15 @@
+x  x  x  p  p  p  p  p  w  w  p  p  p  p  x
+x  x  x  p  e  p  p  x  x  x  x  x  w  p  x
+x  x  x  p  p  p  x  x  x  x  x  x  w  p  S1
+x  x  x  x  x  x  x  w  p  p  p1 p1 p  p  p
+x  x  s  x  x  x  x  w  w  x  x  x  x  x  p  
+x  S2 p  w  x  x  x  w  w  x  x  x  x  x  p
+w  w  w  w  x  x  x  p  p  x2 x  x  x2 p  p
+w  w  w  p  w  p  w  w  p  w  x  x  S3 p  x1
+p  w  w  w  w  w  w  w  w  w  w  w  p  x  x
+x  w  p  w  w  w  x  x  w  w  w  w  p  x  x
+-----
+S3 toggles x1
+S1 closes p1
+S1 opens x2
+S2 opens p1

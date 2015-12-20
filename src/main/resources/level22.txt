@@ -1,0 +1,16 @@
+x x x  x x  p p  x x x  x p p  p
+x x x  p p  p p  p p x  x p e  p
+p p p  p p  p W1 p p p  p p p  p
+p s p  p W2 x x  p p p  p p x2 x
+p p p  x x  x x  x x p  p p x  x
+x p x  x x  x x  x x x  p x x  x
+x p x  x x  x x  x x x  p x x  x
+x p x1 x x  x x  x x p1 p x x  x
+x p p  x x  x x  x x p  p x x  x
+x x S3 x x  x x  x x S4 x x x  x
+-------
+W2 closes x2, x1
+W1 closes x2, x1
+S4 toggles x1
+S3 toggles x2
+

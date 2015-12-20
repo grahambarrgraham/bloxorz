@@ -1,0 +1,14 @@
+x x x x  x  x  x  x  x  x  x p p p p
+x p p p  p  p1 p1 p  W1 p  p p p s p
+x p p W2 p  x  x  x  x  x  x x p p p
+p p p p  p  x  x  x  x  x  x x x x x
+x p p p  p  x  x  x  x  x  x x x x x
+x x x p  p  p  W3 p  p  p  p p p x x
+x x x x  x  x  x  x  x  x  p p p p W4
+p p p  x x  x  x  x  x  x  p p p p p
+p e p  p p  p4 p4 p  p  p  p p p x x
+----
+W4 toggles p4
+W3 closes p4
+W2 opens p4
+W1 toggles p1

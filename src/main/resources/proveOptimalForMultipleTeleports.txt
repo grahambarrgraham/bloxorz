@@ -1,0 +1,11 @@
+p p p p p p p p p p p p p1 
+t1 p p p p p p p p p p p p1 
+s p p p p p p p p p p p e
+p p p p p p p p p p p p p
+p p p p p p p p p p p p p
+p p p  p p3 p p p p2 p2 t2 p p
+p p t3 p3 p p p p p p p p p
+-------
+t1 teleports p2
+t2 teleports p3
+t3 teleports p1

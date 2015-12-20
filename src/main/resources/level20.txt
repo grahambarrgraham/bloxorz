@@ -1,0 +1,19 @@
+x x  x x  x x  x  x  x x  x  x  p  p  p
+x x  p p  p p3 p3 p  p p  x1 x1 p  l5 p
+x x  p p  p x  x  W1 s p  x  x  p  p  p
+x x  p p  p x  x  p  p p  x  x  x  x  x
+x x  p W2 p x  x  t1 p W3 x  x  x  x  x
+x x  p p  p x  x  p  p p  x  x  x  x  x
+p p  p p  x x  x  p  p p  x2 x2 W4 p  p
+p W5 x x  x x  x  x  x x  x  x  p  l4 p
+x x  x x  x x  x  x  x x  x  x  p  e  p
+x x  x x  x x  x  x  x x  x  x  p  p  p
+----
+W3 closes p3
+W1 closes p3
+W2 closes p3
+t1 teleports l5, l4
+W4 toggles x2
+W5 opens x1
+
+

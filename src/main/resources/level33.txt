@@ -1,0 +1,24 @@
+x  x  x  x  x  p  p  W1 p  p  p  x  x  x  x
+x  x  x  x  x  p  p  p  p  p  p  x1 x  x  x
+p  p  p  x  x  W2 p  p  W3 p  p  p  p  p  x
+p  s  p  p1 p1 p  p  p  p  W4 W5 p  p  W6 x
+x  x  x  x  x  p  p  W7 p  p  W8 p  p  p  x
+x  x  x  x  x  p  p  p  p  p  p  W9 p  p  x
+p  p  p  x  x  p  p  p  p  p  p  Wa p  p  p
+p  e  p  p2 p2 p  Wc p  x  x  p  p  p  Wb S1
+p  p  p  x  x  p  p  p  x  x  x  p  p  p  p
+p  p  p  x  x  x  x  x  x  x  x  x  p  p  p
+----
+S1 opens x1
+W1 closes p2
+W2 closes p2
+W3 closes p2
+W4 closes p2
+W5 closes p2
+W6 closes p2
+W7 closes p2
+W8 closes p2
+W9 closes p2
+Wa closes p2
+Wb closes p2
+Wc closes p2

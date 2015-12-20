@@ -1,0 +1,15 @@
+x  t1 x  x  x  x   x  x  x  x  p p p
+t2 p  t3 x1 x1 S1  S2 p1 x2 x2 p e p
+x  t4 x  x  x  x   x  x  x  x  p p p
+x  x  x  x  x  x   x  x  x  x  x x x
+x  x  p  p  p  x   x  x  p  p  p x x
+x  x  p  s  p  p   p  p  p  t5 p x x
+x  x  p  p  p  x   x  x  p  p  p x x
+------
+t1 teleports p1, S1
+t2 teleports t3, t1
+t3 teleports t2, t3
+t4 teleports t4, t2 
+t5 teleports t1, t2
+S1 opens x1
+S2 opens x2

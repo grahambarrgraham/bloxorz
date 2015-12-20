@@ -1,0 +1,12 @@
+x p p p p1 x x x x x x x 
+x p e p p1 x x x x x x x 
+x p p p x x x x x x x x 
+x p x x x p p p p p p x 
+x p x x x p p x x p p x 
+s p p p p p p x x p p p 
+x x x x x p W1 x x x x p 
+x x x x x p p p p x x p 
+x x x x x p p p p p p p 
+x x x x x x x x p p p x
+-----
+W1 closes p1

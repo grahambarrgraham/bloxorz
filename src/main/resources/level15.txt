@@ -1,0 +1,16 @@
+x x  x  x  x x  x  p  p  p  x  x  p  p  p
+x x  x  x  p p2 p2 p  p  p  x2 x2 S4 p1 p
+p p  x3 x3 p x  x  p  p  p  x  x  p  p  p
+p p  p  p  p x  x  x  W1 x  x  x  x  x  x
+p p  x  x  x x  x  x  x  x  x  x  x  x  x
+x p  x  x  x x  x  t1 x  x  x  x  x  x  x
+x p  x  x  x x  x  p  x  x  x  x  x  x  x
+p p  p  x  x x  p  p  p  x  x  W2 p  p  x
+p s1 p  p  p p  p  p  p  p3 p3 p  e  p  x
+p p  p  x  x x  p  p  p  x x   W3 p  p  x
+-------
+t1 teleports p1, s1
+W1 toggles x2, p2
+W2 closes p3
+W3 closes p3
+S4 toggles p2, x3
