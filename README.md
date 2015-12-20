@@ -37,3 +37,12 @@ Example:
     W2 closes p1
     W2 opens x3
     S1 opens x2
+    
+# 1999 Moves
+
+The solver currently fails to find the following shorter sequences :
+
+Level 15 : [R4, U2, S, U5, R3, U2, R4, D2, S, L4, S, U, D, U, L, U, L3, D, S, L5, D, L2, D3, L, D, R, U, R7] : 57 : 556
+
+Level 21 : [R, D, L, U, L, D, R, U, R2, U, R3, U, L, D3, U3, R, D, L3, D, L2, D, L, U, R, D, R, U, L, D, R, U, L, D, R, D2, R, D2, R3, U2, D2, L2, U, L, D, R3, U4, R3] : 71 : 969
+
