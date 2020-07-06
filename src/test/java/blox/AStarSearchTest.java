@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import astar.AbstractAStarSearcher;
 import junit.framework.TestCase;
 import astar.Move;
 import blox.BloxAStarSearcher;
@@ -689,7 +690,9 @@ public class AStarSearchTest extends TestCase {
 			return inputs;
 		}
 		for (Move move : moves) {
-			inputs.add(((BloxMove) move).input);
+			if (!(move instanceof AbstractAStarSearcher.InitialMove)) {
+				inputs.add(((BloxMove) move).input);
+			}
 		}
 		return inputs;
 	}

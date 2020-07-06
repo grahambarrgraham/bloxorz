@@ -22,3 +22,6 @@ hs_err_pid*
 .fuse_hidden*
 
 app.log
+/.bin
+/build
+.gradle

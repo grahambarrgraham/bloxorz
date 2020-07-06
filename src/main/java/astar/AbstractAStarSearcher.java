@@ -6,13 +6,14 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import blox.Site;
+import org.apache.logging.log4j.Logger;
 
 public abstract class AbstractAStarSearcher {
 
-    protected Logger logger = Logger.getLogger(AbstractAStarSearcher.class);
+    protected Logger logger = LogManager.getLogger(AbstractAStarSearcher.class);
 
     private Set<Node> closed = new HashSet<Node>();
     private SortedSet<LinkedList<Move>> paths = null;
@@ -123,7 +124,7 @@ public abstract class AbstractAStarSearcher {
         nodeExpansionCounter = 0;
     }
     
-    class InitialMove extends Move {
+    public static class InitialMove extends Move {
 
         protected InitialMove(Node site) {
             super(site, 1);
