@@ -25,3 +25,7 @@ app.log
 /.bin
 /build
 .gradle
+
+# Runner output (see README "Validator / Runner" section)
+/generated
+/out

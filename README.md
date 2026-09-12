@@ -1,6 +1,7 @@
 # bloxorz
 This is an attempt to (optimally) solve the bloxorz puzzle game using an algorithm. The solver currently solves all levels in 2002
-moves. The code was written in 2009 for the game as it was then (with 33 levels). A solution has been posted with 1999 moves, so the solver needs a bit more work!
+moves -- 2 moves off the formally-verified optimum of 2000 (see [Comparison with bloxorz-aristotle](#comparison-with-bloxorz-aristotle)
+below). The code was written in 2009 for the game as it was then (with 33 levels).
 
 # Algorithm
 The program uses a simple implementation of the [A*](https://en.wikipedia.org/wiki/A*_search_algorithm) graph traversal algorithm. The tricky bit was to model 
@@ -37,12 +38,90 @@ Example:
     W2 closes p1
     W2 opens x3
     S1 opens x2
-    
-# 1999 Moves
 
-The solver currently fails to find the following shorter sequences :
+# Validator / Runner
 
-Level 15 : [R4, U2, S, U5, R3, U2, R4, D2, S, L4, S, U, D, U, L, U, L3, D, S, L5, D, L2, D3, L, D, R, U, R7] : 57 : 556
+`Validator` (`src/test/java/blox/Validator.java`) replays a move file against the
+real game rules -- `successors()` for move legality and `transformCurrentNode()`
+for switch/teleport effects -- instead of trusting whatever produced the moves.
+It rejects a level if any move is illegal on the board, or if the final state
+isn't at the target. After a multi-target teleport, a state can have more than
+one block, and the game lets you freely pick which is active (that's what
+`nextBlock`/"S" does); rather than trust the arbitrary pick `Scape.invokeTeleportRule`
+makes internally, the validator tries every block-as-active variant and accepts
+a move if any of them supports it.
 
-Level 21 : [R, D, L, U, L, D, R, U, R2, U, R3, U, L, D3, U3, R, D, L3, D, L2, D, L, U, R, D, R, U, L, D, R, U, L, D, R, D2, R, D2, R3, U2, D2, L2, U, L, D, R3, U4, R3] : 71 : 969
+`Runner` (`src/test/java/blox/Runner.java`) solves all 33 levels with
+`BloxAStarSearcher`, writes the result to `generated/solution.txt` (same format,
+gitignored), and prints a per-level move-count report.
+
+## Via Make
+
+```
+make build      # compiles main + test sources into out/
+make test       # runs the JUnit suite
+make run        # solves all levels, writes generated/solution.txt
+make validate   # validates a moves file (defaults to generated/solution.txt)
+make clean      # removes out/ and generated/
+```
+
+Both `run` and `validate` log at `warn` by default. Raise or lower it with
+`LOG_LEVEL`:
+
+```
+make run LOG_LEVEL=info
+make validate LOG_LEVEL=debug MOVES=path/to/moves.txt
+```
+
+Typical workflow after changing the solver: `make run` to regenerate a
+solution, then `make validate` to confirm the solver's own output is legal
+end-to-end.
+
+If the dependency jars aren't found automatically (they're located under
+`~/.gradle/caches` and `~/.m2` by default), point at them explicitly:
+`make build LOG4J_API=... LOG4J_CORE=... JUNIT_JAR=... HAMCREST_JAR=...`.
+
+## Directly with java
+
+```
+java -cp <classpath> blox.Runner [outputDir]        # outputDir defaults to "generated"
+java -cp <classpath> blox.Validator path/to/moves.txt
+```
+
+Logging defaults to `warn`; override with `-Dblox.log.level=<level>`
+(`info`/`debug`/etc), e.g. `-Dblox.log.level=debug`.
+
+# Comparison with bloxorz-aristotle
+
+[bloxorz-aristotle](https://github.com/grahambarrgraham/bloxorz-aristotle) formally
+verifies (in Lean 4) the optimal move count for each of these 33 levels, proving a
+total of **2000** moves is optimal and that 1999 is impossible. It also refutes an
+earlier "1999 moves" claim: the walkthrough behind that claim rolls a block onto a
+missing tile at move 59 on level 21, so it isn't a legal play at all.
+
+This solver currently totals **2002** moves -- matching the proven optimum exactly
+on 32 of 33 levels. The one gap is level 15, where this solver finds 59 moves
+against a proven optimum of 57. Every other level, including 21 and 24 (the two
+levels this repo's `Validator` independently flagged as illegal in the old
+`postedSolution.txt` walkthrough), matches the Lean-proven count exactly.
+
+# Update Log
+
+**Current total: 2002 moves** across all 33 levels, validated legal end-to-end --
+matches [bloxorz-aristotle](https://github.com/grahambarrgraham/bloxorz-aristotle)'s
+proven-optimal 2000 on 32 of 33 levels; level 15 is 2 moves over optimal.
+
+Fixes applied to reach this:
+- Corrected an integer overflow in the A* heuristic (`BloxPathComparator.distance`)
+  that computed a running sum instead of a minimum across blocks.
+- Fixed a double-toggle bug where a switch spanning two tiles under a flat block
+  fired its rule twice, canceling itself out (`BloxAStarSearcher.applySwitchRules`
+  now dedupes triggered switches before applying them).
+- Added `Validator` to check move legality against the actual rules instead of
+  trusting hand-authored or externally-sourced move lists.
+- Added `Runner` to solve all levels and emit a moves file, and a `Makefile`
+  wrapping build/test/run/validate.
+- Replaced the inert `log4j.properties` (log4j 1.x syntax, silently ignored by
+  the log4j2 dependency actually in use) with a working `log4j2.properties`,
+  defaulting to `warn` and overridable via `-Dblox.log.level=...`.
 

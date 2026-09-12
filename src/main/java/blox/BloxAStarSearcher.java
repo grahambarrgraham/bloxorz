@@ -18,17 +18,21 @@ public class BloxAStarSearcher extends AbstractAStarSearcher {
         Block block = x.getActiveBlock();
         Tile[] affectedTiles = block.getAffectedTiles(x.scape);
         Scape scape = null;
+        Set<Tile> triggeredSwitches = new HashSet<Tile>();
         for (Tile tile : affectedTiles) {
             switch (tile.getType()) {
             case weakSwitch:
-                scape = applySwitch(x, scape, tile);
+                triggeredSwitches.add(tile);
                 break;
             case strongSwitch:
                 if (block.site.orientation == Orientation.z && block.height > 1) {
-                    scape = applySwitch(x, scape, tile);
+                    triggeredSwitches.add(tile);
                 }
                 break;
             }
+        }
+        for (Tile tile : triggeredSwitches) {
+            scape = applySwitch(x, scape, tile);
         }
         return scape != null ? new BloxNode(x, scape) : x;
     }
