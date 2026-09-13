@@ -96,9 +96,7 @@ missing tile at move 59 on level 21, so it isn't a legal play at all.
 
 This solver currently totals **2002** moves -- matching the proven optimum exactly
 on 32 of 33 levels. The one gap is level 15, where this solver finds 59 moves
-against a proven optimum of 57. Every other level, including 21 and 24 (the two
-levels this repo's `Validator` independently flagged as illegal in the old
-`postedSolution.txt` walkthrough), matches the Lean-proven count exactly.
+against a proven optimum of 57.
 
 # Update Log
 
@@ -112,16 +110,5 @@ Fixes applied to reach this:
 - Fixed a double-toggle bug where a switch spanning two tiles under a flat block
   fired its rule twice, canceling itself out (`BloxAStarSearcher.applySwitchRules`
   now dedupes triggered switches before applying them).
-- Added `Validator` to check move legality against the actual rules instead of
-  trusting hand-authored or externally-sourced move lists.
-- Added `Runner` to solve all levels and emit a moves file, and a `Makefile`
-  wrapping build/test/run/validate.
-- Replaced the inert `log4j.properties` (log4j 1.x syntax, silently ignored by
-  the log4j2 dependency actually in use) with a working `log4j2.properties`,
-  defaulting to `warn` and overridable via `-Dblox.log.level=...`.
-- Modernized the toolchain: Java 25, Gradle 9.7.1 (wrapper regenerated), the
-  unused Kotlin plugin removed, log4j bumped to 2.25.3, and tests migrated
-  from JUnit 4 to JUnit 5. `Runner`/`Validator` now log each level's result
-  and duration via log4j at `info` instead of `System.out.println`. The
-  `Makefile` targets are now thin wrappers around `./gradlew`.
-
+- Added `Validator` and `Runner` and updated to modern tooling, jvm and libs
+- 
