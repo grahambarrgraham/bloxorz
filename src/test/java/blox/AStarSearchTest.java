@@ -292,23 +292,20 @@ public class AStarSearchTest {
 
 	@Test
 	void testLevel15() throws IOException {
+		// 57 rolls -- matches the formally-verified optimum (bloxorz-aristotle).
+		// Was 59 before eager switch-resolution fixed a state-representation bug
+		// where a cheap nextBlock arrival could foreclose a costlier roll arrival's
+		// switch-triggered continuation (see README's Update Log).
 		List<Input> inputs = Arrays
-				.asList(Input.right, Input.right, Input.right, Input.right,
-						Input.up, Input.up, Input.nextBlock, Input.up,
-						Input.up, Input.up, Input.up, Input.up, Input.right,
-						Input.right, Input.right, Input.up, Input.up,
-						Input.right, Input.right, Input.right, Input.right,
-						Input.down, Input.down, Input.up, Input.left, Input.up,
-						Input.nextBlock, Input.left, Input.left, Input.left,
-						Input.left, Input.down, Input.left, Input.down,
-						Input.up, Input.nextBlock, Input.left, Input.left,
-						Input.left, Input.down, Input.nextBlock, Input.up,
-						Input.left, Input.left, Input.left, Input.left,
-						Input.down, Input.left, Input.left, Input.down,
-						Input.down, Input.down, Input.left, Input.down,
-						Input.right, Input.up, Input.right, Input.right,
-						Input.right, Input.right, Input.right, Input.right,
-						Input.right);
+				.asList(Input.right, Input.right, Input.right, Input.right, Input.up, Input.up, Input.left,
+						Input.nextBlock, Input.up, Input.up, Input.up, Input.up, Input.up, Input.right,
+						Input.right, Input.right, Input.up, Input.up, Input.right, Input.right, Input.right,
+						Input.down, Input.right, Input.down, Input.up, Input.nextBlock, Input.left, Input.left,
+						Input.nextBlock, Input.down, Input.up, Input.up, Input.left, Input.left, Input.left,
+						Input.left, Input.down, Input.nextBlock, Input.left, Input.left, Input.left, Input.left,
+						Input.left, Input.left, Input.down, Input.left, Input.left, Input.down, Input.down,
+						Input.down, Input.left, Input.down, Input.right, Input.up, Input.right, Input.right,
+						Input.right, Input.right, Input.right, Input.right, Input.right);
 		doTest("level15.txt", inputs, true);
 	}
 

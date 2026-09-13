@@ -66,9 +66,29 @@ class BloxPathComparator extends BasePathComparator {
         return (Site) super.target;
     }
 
+    // Estimated remaining rolls (never overestimated for plain rolling), scaled
+    // to match pathCost's units (BloxMove.ROLL_COST per roll) so it could
+    // actually influence ordering if enabled. A single roll can move a block by
+    // at most max(width, height) tiles, so ceil(tileDistance / maxStep) is a
+    // valid lower bound on rolls remaining for that alone.
+    //
+    // NOT ADMISSIBLE ON LEVELS WITH TELEPORTS -- see README ("Heuristic (currently
+    // disabled)"). A teleport move costs the same as a roll but can cover
+    // arbitrary distance, so this estimate can overestimate remaining cost
+    // wherever the optimal path uses one, breaking A*'s optimality guarantee.
+    // Kept here, correctly scaled, for whoever tackles that properly; disabled
+    // via BasePathComparator.dijkstraMode until then.
     @Override
     public int cost(Node node) {
-        return distance((BloxNode) node, getTarget().coord);
+        BloxNode bloxNode = (BloxNode) node;
+        int bestRollEstimate = Integer.MAX_VALUE;
+        for (Block block : bloxNode.blocks) {
+            int tileDistance = distance(bloxNode, block);
+            int maxStep = Math.max(block.width, block.height);
+            int rollEstimate = (tileDistance + maxStep - 1) / maxStep;
+            bestRollEstimate = Math.min(bestRollEstimate, rollEstimate);
+        }
+        return bestRollEstimate == Integer.MAX_VALUE ? 0 : bestRollEstimate * BloxMove.ROLL_COST;
     }
 
     @Override

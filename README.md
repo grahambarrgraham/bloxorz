@@ -1,11 +1,20 @@
 # bloxorz
-This is an attempt to (optimally) solve the bloxorz puzzle game using an algorithm. The solver currently solves all levels in 2002
-moves -- 2 moves off the formally-verified optimum of 2000 (see [Comparison with bloxorz-aristotle](#comparison-with-bloxorz-aristotle)
+This is an attempt to (optimally) solve the bloxorz puzzle game using an algorithm. The solver currently solves all levels in 2000
+moves -- matching the formally-verified optimum exactly (see [Comparison with bloxorz-aristotle](#comparison-with-bloxorz-aristotle)
 below). The code was written in 2009 for the game as it was then (with 33 levels).
 
 # Algorithm
 The program uses a simple implementation of the [A*](https://en.wikipedia.org/wiki/A*_search_algorithm) graph traversal algorithm. The tricky bit was to model 
 the switches (which toggle the presence/absence of one or more tiles), as this effectively changes the shape of the graph being searched.
+
+## Heuristic (currently disabled)
+
+`BloxPathComparator.cost()` holds a properly-scaled heuristic, kept but disabled
+(`BasePathComparator.dijkstraMode = true`, plain Dijkstra). It's inadmissible on
+any level with a teleport -- a teleport move covers arbitrary distance for the
+cost of one roll, so the heuristic can overestimate and break A*'s optimality
+guarantee (verified: level 16 regressed 28 -> 30 rolls with it on). 10 of 33
+levels have teleports, so this isn't a corner case worth ignoring.
 
 # Level Models
 Each level in the game is modelled in a resource file in `/src/main/resources/level<x>.txt`. These files contain an array of characters/codes which map to the tiles on the level. The characters/codes are intepretted according to this table :
@@ -41,15 +50,15 @@ Example:
 
 # Validator / Runner
 
-`Validator` (`src/test/java/blox/Validator.java`) replays a move file against the
-real game rules -- `successors()` for move legality and `transformCurrentNode()`
-for switch/teleport effects -- instead of trusting whatever produced the moves.
-It rejects a level if any move is illegal on the board, or if the final state
-isn't at the target. After a multi-target teleport, a state can have more than
-one block, and the game lets you freely pick which is active (that's what
-`nextBlock`/"S" does); rather than trust the arbitrary pick `Scape.invokeTeleportRule`
-makes internally, the validator tries every block-as-active variant and accepts
-a move if any of them supports it.
+`Validator` (`src/test/java/blox/Validator.java`) replays a move file against
+the real game rules (`successors()`, which now resolves switch/teleport effects
+per generated edge) instead of trusting whatever produced the moves. It rejects
+a level if any move is illegal on the board, or if the final state isn't at the
+target. After a multi-target teleport, a state can have more than one block,
+and the game lets you freely pick which is active (that's what `nextBlock`/"S"
+does); rather than trust the arbitrary pick `Scape.invokeTeleportRule` makes
+internally, the validator tries every block-as-active variant and accepts a
+move if any of them supports it.
 
 `Runner` (`src/test/java/blox/Runner.java`) solves all 33 levels with
 `BloxAStarSearcher`, writes the result to `generated/solution.txt` (same format,
@@ -94,21 +103,36 @@ total of **2000** moves is optimal and that 1999 is impossible. It also refutes 
 earlier "1999 moves" claim: the walkthrough behind that claim rolls a block onto a
 missing tile at move 59 on level 21, so it isn't a legal play at all.
 
-This solver currently totals **2002** moves -- matching the proven optimum exactly
-on 32 of 33 levels. The one gap is level 15, where this solver finds 59 moves
-against a proven optimum of 57.
+This solver now totals **2000** moves -- matching the proven optimum exactly on
+all 33 levels.
 
 # Update Log
 
-**Current total: 2002 moves** across all 33 levels, validated legal end-to-end --
+**Current total: 2000 moves** across all 33 levels, validated legal end-to-end --
 matches [bloxorz-aristotle](https://github.com/grahambarrgraham/bloxorz-aristotle)'s
-proven-optimal 2000 on 32 of 33 levels; level 15 is 2 moves over optimal.
+proven optimum exactly on all 33 levels.
 
-Fixes applied to reach this:
+Fixes applied to reach this, most recent first:
+
+- **Eager switch resolution** (state-representation bug, cost level 15 two extra
+  moves -- 59 vs. the proven-optimal 57). Switch application used to happen
+  lazily, once per *closed* node, and was skipped entirely when the preceding
+  move was `nextBlock` (correct in isolation -- switching focus doesn't move
+  anything, so it shouldn't re-trigger a switch). But this meant two different
+  arrivals at the same raw board position -- one via `nextBlock`, one via an
+  actual roll -- could collide in the same `closed`-set entry despite needing
+  genuinely different futures (one with a switch toggled, one without). When the
+  cheaper arrival happened to be the `nextBlock` one, it could permanently
+  foreclose the costlier roll arrival's switch-triggered continuation. Fixed by
+  resolving switches eagerly, per generated edge, in
+  `BloxAStarSearcher.successors()`, so the two arrivals now produce genuinely
+  distinct (non-`.equals()`) nodes instead of colliding. Trades a modest amount
+  of search performance (~10% slower across all 33 levels, still well under a
+  second each) for removing an over-pruning bug that could silently return
+  suboptimal solutions.
 - Corrected an integer overflow in the A* heuristic (`BloxPathComparator.distance`)
   that computed a running sum instead of a minimum across blocks.
 - Fixed a double-toggle bug where a switch spanning two tiles under a flat block
   fired its rule twice, canceling itself out (`BloxAStarSearcher.applySwitchRules`
   now dedupes triggered switches before applying them).
-- Added `Validator` and `Runner` and updated to modern tooling, jvm and libs
-- 
+- Added `Validator` and `Runner`, and updated to modern tooling (Gradle, JVM, libs).

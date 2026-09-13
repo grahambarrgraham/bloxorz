@@ -403,8 +403,7 @@ public class Scape {
     }
 
     public int getDistanceToTarget(Coord coord) {
-        return 0;
-        //return land[coord.x][coord.y].distanceToTarget;
+        return land[coord.x][coord.y].distanceToTarget;
     }
 
 }

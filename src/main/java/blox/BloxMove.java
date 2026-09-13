@@ -4,13 +4,14 @@ import astar.Move;
 import astar.Node;
 
 class BloxMove extends Move {
+    static final int ROLL_COST = 1000000;
+
     Input input;
-    
+
     BloxMove(Node node, Input input) {
-        super(node, input == Input.nextBlock ? 1 : 1000000);
-        //super(node, 1);
+        super(node, input == Input.nextBlock ? 1 : ROLL_COST);
         this.input = input;
-    } 
+    }
 
     public String toString() {
         return "Move " + input + "->" + destination;
