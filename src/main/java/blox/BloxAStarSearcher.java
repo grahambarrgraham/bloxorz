@@ -94,25 +94,13 @@ public class BloxAStarSearcher extends AbstractAStarSearcher {
                     && tiles[0].getType() == Tile.Type.teleport) {
                 Rule rule = start.scape.getRules(tiles[0].getId()).get(0);
                 BloxNode teleportDestination = start.scape.invokeTeleportRule(start, rule);
-                options.add(new BloxMove(teleportDestination, input));
+                options.add(new BloxMove(applySwitchRules(teleportDestination), input));
             } else {
-                options.add(new BloxMove(new BloxNode(start, block), input));
+                options.add(new BloxMove(applySwitchRules(new BloxNode(start, block)), input));
             }
 
         }
         return options;
-    }
-
-    @Override
-    protected Node transformCurrentNode(Move lastMove) {
-
-        BloxMove lastBloxMove = (BloxMove) lastMove;
-
-        if (lastBloxMove.input != Input.nextBlock) {
-            return applySwitchRules((BloxNode) lastBloxMove.destination);
-        }
-
-        return super.transformCurrentNode(lastMove);
     }
 
 }
