@@ -1,9 +1,11 @@
 package blox;
 
 import astar.Move;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -30,6 +32,8 @@ import java.util.regex.Pattern;
  */
 public class Validator extends BloxAStarSearcher {
 
+    private static final Logger logger = LogManager.getLogger(Validator.class);
+
     Validator(BloxNode start, Site target) {
         super(start, target);
     }
@@ -54,6 +58,7 @@ public class Validator extends BloxAStarSearcher {
                 continue;
             }
 
+            long levelStart = System.nanoTime();
             List<Input> moves = parse(line);
             String levelFile = "level" + levelName + ".txt";
 
@@ -116,24 +121,26 @@ public class Validator extends BloxAStarSearcher {
                 }
             }
 
+            long levelDurationMs = (System.nanoTime() - levelStart) / 1_000_000;
+
             if (!valid) {
                 failures++;
-                System.out.println(levelFile + " : INVALID -- " + failReason);
+                logger.info("{} : INVALID -- {}, duration={}ms", levelFile, failReason, levelDurationMs);
             } else if (!atTarget) {
                 failures++;
-                System.out.println(levelFile + " : all moves legal but FINAL STATE NOT AT TARGET -- ended at "
-                        + candidates);
+                logger.info("{} : all moves legal but FINAL STATE NOT AT TARGET -- ended at {}, duration={}ms",
+                        levelFile, candidates, levelDurationMs);
             } else {
                 grandTotal += rollCount;
-                System.out.println(levelFile + " : VALID, rolls=" + rollCount + ", runningTotal=" + grandTotal);
+                logger.info("{} : VALID, rolls={}, runningTotal={}, duration={}ms",
+                        levelFile, rollCount, grandTotal, levelDurationMs);
             }
         }
 
         bReader.close();
 
-        System.out.println();
-        System.out.println("Levels with problems: " + failures);
-        System.out.println("Grand total rolls (valid levels only): " + grandTotal);
+        logger.info("Levels with problems: {}", failures);
+        logger.info("Grand total rolls (valid levels only): {}", grandTotal);
 
         if (failures > 0) {
             System.exit(1);

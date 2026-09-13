@@ -1,8 +1,10 @@
 package blox;
 
 import astar.Move;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.Writer;
 import java.util.LinkedList;
 
@@ -16,16 +18,20 @@ import java.util.LinkedList;
  */
 public class Runner {
 
+    private static final Logger logger = LogManager.getLogger(Runner.class);
+
     public static void main(String[] args) throws Exception {
         String outputDir = args.length > 0 ? args[0] : "generated";
         new java.io.File(outputDir).mkdirs();
 
         Writer writer = new FileWriter(outputDir + "/solution.txt");
         int grandTotal = 0;
+        long runStart = System.nanoTime();
 
         try {
             for (int levelNum = 1; levelNum <= 33; levelNum++) {
                 String levelFile = "level" + levelNum + ".txt";
+                long levelStart = System.nanoTime();
 
                 Scape scape = new Scape();
                 scape.load(levelFile);
@@ -35,8 +41,9 @@ public class Runner {
                 BloxAStarSearcher searcher = new BloxAStarSearcher(start, new Site(Orientation.z, scape.end));
 
                 LinkedList<Move> path = searcher.search();
+                long levelDurationMs = elapsedMs(levelStart);
                 if (path == null) {
-                    System.out.println(levelFile + " : NO PATH FOUND");
+                    logger.info("{} : NO PATH FOUND, duration={}ms", levelFile, levelDurationMs);
                     continue;
                 }
 
@@ -55,15 +62,20 @@ public class Runner {
                 writer.write("level " + levelNum + "\n");
                 writer.write(moveLine.toString() + "\n\n");
 
-                System.out.println(levelFile + " : rolls=" + rollCount + ", runningTotal=" + grandTotal);
+                logger.info("{} : rolls={}, runningTotal={}, duration={}ms",
+                        levelFile, rollCount, grandTotal, levelDurationMs);
             }
         } finally {
             writer.close();
         }
 
-        System.out.println();
-        System.out.println("Grand total rolls (all 33 levels): " + grandTotal);
-        System.out.println("Moves written to " + outputDir + "/solution.txt");
+        logger.info("Grand total rolls (all 33 levels): {}, total duration={}ms",
+                grandTotal, elapsedMs(runStart));
+        logger.info("Moves written to {}/solution.txt", outputDir);
+    }
+
+    private static long elapsedMs(long startNanos) {
+        return (System.nanoTime() - startNanos) / 1_000_000;
     }
 
     private static char toChar(Input input) {

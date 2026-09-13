@@ -58,18 +58,20 @@ gitignored), and prints a per-level move-count report.
 ## Via Make
 
 ```
-make build      # compiles main + test sources into out/
-make test       # runs the JUnit suite
+make build      # gradle build (compiles main + test sources)
+make test       # gradle test (runs the JUnit 5 suite)
 make run        # solves all levels, writes generated/solution.txt
 make validate   # validates a moves file (defaults to generated/solution.txt)
-make clean      # removes out/ and generated/
+make clean      # gradle clean, removes generated/
 ```
 
-Both `run` and `validate` log at `warn` by default. Raise or lower it with
+`run` and `validate` always report each level's result (and how long it took)
+at `info`, regardless of the root log level; the solver's own internal
+chatter stays at `warn` by default. Raise or lower the root level with
 `LOG_LEVEL`:
 
 ```
-make run LOG_LEVEL=info
+make run LOG_LEVEL=debug
 make validate LOG_LEVEL=debug MOVES=path/to/moves.txt
 ```
 
@@ -77,19 +79,12 @@ Typical workflow after changing the solver: `make run` to regenerate a
 solution, then `make validate` to confirm the solver's own output is legal
 end-to-end.
 
-If the dependency jars aren't found automatically (they're located under
-`~/.gradle/caches` and `~/.m2` by default), point at them explicitly:
-`make build LOG4J_API=... LOG4J_CORE=... JUNIT_JAR=... HAMCREST_JAR=...`.
-
-## Directly with java
+## Directly with Gradle
 
 ```
-java -cp <classpath> blox.Runner [outputDir]        # outputDir defaults to "generated"
-java -cp <classpath> blox.Validator path/to/moves.txt
+./gradlew run -PoutputDir=generated -PlogLevel=warn
+./gradlew validate -Pmoves=path/to/moves.txt -PlogLevel=warn
 ```
-
-Logging defaults to `warn`; override with `-Dblox.log.level=<level>`
-(`info`/`debug`/etc), e.g. `-Dblox.log.level=debug`.
 
 # Comparison with bloxorz-aristotle
 
@@ -124,4 +119,9 @@ Fixes applied to reach this:
 - Replaced the inert `log4j.properties` (log4j 1.x syntax, silently ignored by
   the log4j2 dependency actually in use) with a working `log4j2.properties`,
   defaulting to `warn` and overridable via `-Dblox.log.level=...`.
+- Modernized the toolchain: Java 25, Gradle 9.7.1 (wrapper regenerated), the
+  unused Kotlin plugin removed, log4j bumped to 2.25.3, and tests migrated
+  from JUnit 4 to JUnit 5. `Runner`/`Validator` now log each level's result
+  and duration via log4j at `info` instead of `System.out.println`. The
+  `Makefile` targets are now thin wrappers around `./gradlew`.
 
