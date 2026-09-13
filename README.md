@@ -7,6 +7,15 @@ below). The code was written in 2009 for the game as it was then (with 33 levels
 The program uses a simple implementation of the [A*](https://en.wikipedia.org/wiki/A*_search_algorithm) graph traversal algorithm. The tricky bit was to model 
 the switches (which toggle the presence/absence of one or more tiles), as this effectively changes the shape of the graph being searched.
 
+## Heuristic (currently disabled)
+
+`BloxPathComparator.cost()` holds a properly-scaled heuristic, kept but disabled
+(`BasePathComparator.dijkstraMode = true`, plain Dijkstra). It's inadmissible on
+any level with a teleport -- a teleport move covers arbitrary distance for the
+cost of one roll, so the heuristic can overestimate and break A*'s optimality
+guarantee (verified: level 16 regressed 28 -> 30 rolls with it on). 10 of 33
+levels have teleports, so this isn't a corner case worth ignoring.
+
 # Level Models
 Each level in the game is modelled in a resource file in `/src/main/resources/level<x>.txt`. These files contain an array of characters/codes which map to the tiles on the level. The characters/codes are intepretted according to this table :
 
