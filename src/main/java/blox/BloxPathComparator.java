@@ -32,9 +32,9 @@ class BloxPathComparator extends BasePathComparator {
     public int distance(BloxNode node, Coord b) {
 
         int distance = Integer.MAX_VALUE;
-        
+
         for (Block block : node.blocks) {
-            distance += Math.min(distance, distance(node, block));
+            distance = Math.min(distance, distance(node, block));
         }
         return distance;
     }

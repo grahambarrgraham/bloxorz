@@ -10,70 +10,80 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import astar.AbstractAStarSearcher;
-import junit.framework.TestCase;
 import astar.Move;
-import blox.BloxAStarSearcher;
-import blox.Scape;
-import blox.Site;
 
-public class AStarSearchTest extends TestCase {
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class AStarSearchTest {
 
 	Scape scape = null;
 	boolean assertPath = true;
 	private boolean searchTwice = false;
 
-	protected void setUp() throws Exception {
-		super.setUp();
+	@BeforeEach
+	void setUp() throws Exception {
 		scape = new Scape();
 	}
 
-	public void testStartIsTarget() throws IOException {
+	@Test
+	void testStartIsTarget() throws IOException {
 		Scape scape = new Scape();
 		scape.load("level1.txt");
 		List<Input> inputs = Arrays.asList();
 		doTest(scape, scape.start, scape.start, inputs, false);
 	}
 
-	public void testTargetNotReachable() throws IOException {
+	@Test
+	void testTargetNotReachable() throws IOException {
 		List<Input> inputs = Arrays.asList();
 		doTest("notreachable.txt", inputs);
 	}
 
-	public void testTrivial() throws IOException {
+	@Test
+	void testTrivial() throws IOException {
 		doTest("trivial.txt", 2);
 	}
 
-	public void testSimpleToggle() throws IOException {
+	@Test
+	void testSimpleToggle() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.left, Input.right, Input.left,
 				Input.left, Input.left, Input.left);
 		doTest("testsimpletoggle.txt", inputs);
 	}
 
-	public void testLevel0() throws IOException {
+	@Test
+	void testLevel0() throws IOException {
 		doTest("level0.txt", 18);
 	}
 
-	public void testProveOptimalForTeleport_SingleTeleport() throws IOException {
+	@Test
+	void testProveOptimalForTeleport_SingleTeleport() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.right, Input.up, Input.left,
 				Input.down);
 		doTest("proveOptimalForTeleport1.txt", inputs);
 	}
 
-	public void testProveOptimalForTeleport_MultipleTeleport()
+	@Test
+	void testProveOptimalForTeleport_MultipleTeleport()
 			throws IOException {
 		List<Input> inputs = Arrays.asList(Input.right, Input.up, Input.left,
 				Input.right, Input.down, Input.left, Input.down);
 		doTest("proveOptimalForMultipleTeleports.txt", inputs);
 	}
 
-	public void testSimpleTeleport() throws IOException {
+	@Test
+	void testSimpleTeleport() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.right, Input.down, Input.left,
 				Input.up, Input.right, Input.down, Input.left, Input.up,
 				Input.nextBlock, Input.down, Input.right);
 		doTest("testsimpleteleport.txt", inputs);
 	}
 
-	public void testSimpleTeleport2() throws IOException {
+	@Test
+	void testSimpleTeleport2() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.right, Input.down, Input.left,
 				Input.up, Input.right, Input.down, Input.left, Input.down,
 				Input.down, Input.right, Input.nextBlock, Input.left, Input.up,
@@ -81,13 +91,15 @@ public class AStarSearchTest extends TestCase {
 		doTest("testsimpleteleport2.txt", inputs, true);
 	}
 
-	public void testLevel1() throws IOException {
+	@Test
+	void testLevel1() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.right, Input.right,
 				Input.down, Input.right, Input.right, Input.right, Input.down);
 		doTest("level1.txt", inputs);
 	}
 
-	public void testLevel2() throws IOException {
+	@Test
+	void testLevel2() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.up, Input.right, Input.down,
 				Input.right, Input.right, Input.right, Input.right, Input.up,
 				Input.up, Input.down, Input.right, Input.down, Input.right,
@@ -95,7 +107,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level2.txt", inputs);
 	}
 
-	public void testLevel3() throws IOException {
+	@Test
+	void testLevel3() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.right, Input.up, Input.right,
 				Input.right, Input.right, Input.up, Input.left, Input.down,
 				Input.right, Input.up, Input.up, Input.right, Input.right,
@@ -104,7 +117,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level3.txt", inputs);
 	}
 
-	public void testLevel4() throws IOException {
+	@Test
+	void testLevel4() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.up, Input.left, Input.up,
 				Input.right, Input.right, Input.up, Input.right, Input.right,
 				Input.right, Input.right, Input.right, Input.right, Input.down,
@@ -114,7 +128,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level4.txt", inputs);
 	}
 
-	public void testLevel5() throws IOException {
+	@Test
+	void testLevel5() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.left, Input.left, Input.left,
 				Input.right, Input.left, Input.left, Input.left, Input.left,
 				Input.left, Input.down, Input.right, Input.down, Input.down,
@@ -128,7 +143,8 @@ public class AStarSearchTest extends TestCase {
 	/**
 	 * @throws IOException
 	 */
-	public void testLevel6() throws IOException {
+	@Test
+	void testLevel6() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.right, Input.right,
 				Input.right, Input.down, Input.down, Input.right, Input.down,
 				Input.down, Input.right, Input.down, Input.right, Input.up,
@@ -151,7 +167,8 @@ public class AStarSearchTest extends TestCase {
 	/**
 	 * single strong switch
 	 */
-	public void testLevel7() throws IOException {
+	@Test
+	void testLevel7() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.down, Input.left, Input.up,
 				Input.right, Input.right, Input.right, Input.right,
 				Input.right, Input.down, Input.right, Input.left, Input.up,
@@ -166,7 +183,8 @@ public class AStarSearchTest extends TestCase {
 	}
 
 	// single teleport
-	public void testLevel8() throws IOException {
+	@Test
+	void testLevel8() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.right, Input.right,
 				Input.down, Input.nextBlock, Input.up, Input.up, Input.up,
 				Input.up, Input.down, Input.right, Input.right);
@@ -174,7 +192,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level8.txt", inputs, true);
 	}
 
-	public void testLevel9() throws IOException {
+	@Test
+	void testLevel9() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.right, Input.down,
 				Input.right, Input.right, Input.right, Input.right,
 				Input.right, Input.right, Input.up, Input.right, Input.left,
@@ -184,7 +203,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level9.txt", inputs);
 	}
 
-	public void testLevel10() throws IOException {
+	@Test
+	void testLevel10() throws IOException {
 		List<Input> inputs = Arrays.asList();
 
 		inputs = Arrays.asList(Input.right, Input.right, Input.left,
@@ -202,7 +222,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level10.txt", inputs);
 	}
 
-	public void testLevel11() throws IOException {
+	@Test
+	void testLevel11() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.right, Input.right,
 				Input.right, Input.right, Input.up, Input.left, Input.down,
 				Input.down, Input.down, Input.right, Input.right, Input.right,
@@ -216,7 +237,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level11.txt", inputs);
 	}
 
-	public void testLevel12() throws IOException {
+	@Test
+	void testLevel12() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.left, Input.down, Input.right,
 				Input.up, Input.right, Input.up, Input.right, Input.up,
 				Input.left, Input.down, Input.right, Input.up, Input.right,
@@ -234,7 +256,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level12.txt", inputs);
 	}
 
-	public void testLevel13() throws IOException {
+	@Test
+	void testLevel13() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.up, Input.up, Input.left,
 				Input.down, Input.right, Input.down, Input.right, Input.down,
 				Input.left, Input.up, Input.up, Input.up, Input.up, Input.left,
@@ -248,7 +271,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level13.txt", inputs);
 	}
 
-	public void testLevel14() throws IOException {
+	@Test
+	void testLevel14() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.right, Input.right,
 				Input.right, Input.right, Input.up, Input.left, Input.left,
 				Input.down, Input.right, Input.right, Input.right, Input.down,
@@ -266,7 +290,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level14.txt", inputs);
 	}
 
-	public void testLevel15() throws IOException {
+	@Test
+	void testLevel15() throws IOException {
 		List<Input> inputs = Arrays
 				.asList(Input.right, Input.right, Input.right, Input.right,
 						Input.up, Input.up, Input.nextBlock, Input.up,
@@ -287,7 +312,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level15.txt", inputs, true);
 	}
 
-	public void testLevel16() throws IOException {
+	@Test
+	void testLevel16() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.right, Input.right,
 				Input.right, Input.right, Input.nextBlock, Input.right,
 				Input.down, Input.nextBlock, Input.right, Input.up,
@@ -300,7 +326,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level16.txt", inputs, false);
 	}
 
-	public void testLevel17() throws IOException {
+	@Test
+	void testLevel17() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.down, Input.down, Input.down,
 				Input.down, Input.down, Input.left, Input.up, Input.right,
 				Input.right, Input.right, Input.right, Input.right, Input.up,
@@ -326,7 +353,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level17.txt", inputs, true);
 	}
 
-	public void testLevel18() throws IOException {
+	@Test
+	void testLevel18() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.up, Input.left, Input.down,
 				Input.right, Input.right, Input.right, Input.right, Input.up,
 				Input.up, Input.down, Input.down, Input.left, Input.left,
@@ -348,7 +376,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level18.txt", inputs);
 	}
 
-	public void testLevel19() throws IOException {
+	@Test
+	void testLevel19() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.right, Input.right,
 				Input.right, Input.right, Input.right, Input.right,
 				Input.right, Input.right, Input.down, Input.right, Input.up,
@@ -367,7 +396,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level19.txt", inputs);
 	}
 
-	public void testLevel20() throws IOException {
+	@Test
+	void testLevel20() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.down, Input.left, Input.down,
 				Input.right, Input.down, Input.left, Input.up, Input.up,
 				Input.right, Input.up, Input.up, Input.left, Input.left,
@@ -384,7 +414,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level20.txt", inputs, true);
 	}
 
-	public void testLevel21() throws IOException {
+	@Test
+	void testLevel21() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.right, Input.down, Input.left,
 				Input.up, Input.left, Input.down, Input.right, Input.up,
 				Input.right, Input.right, Input.up, Input.right, Input.right,
@@ -404,7 +435,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level21.txt", inputs);
 	}
 
-	public void testLevel22() throws IOException {
+	@Test
+	void testLevel22() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.right, Input.right, Input.up,
 				Input.right, Input.right, Input.right, Input.down, Input.right,
 				Input.right, Input.down, Input.down, Input.down, Input.left,
@@ -437,7 +469,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level22.txt", inputs, false);
 	}
 
-	public void testLevel23() throws IOException {
+	@Test
+	void testLevel23() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.right, Input.down, Input.down,
 				Input.right, Input.up, Input.right, Input.right, Input.right,
 				Input.right, Input.right, Input.up, Input.left, Input.down,
@@ -457,7 +490,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level23.txt", inputs);
 	}
 
-	public void testLevel24() throws IOException {
+	@Test
+	void testLevel24() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.down, Input.left, Input.down,
 				Input.right, Input.down, Input.left, Input.up, Input.up,
 				Input.down, Input.down, Input.right, Input.up, Input.left,
@@ -473,7 +507,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level24.txt", inputs);
 	}
 
-	public void testLevel25() throws IOException {
+	@Test
+	void testLevel25() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.up, Input.right, Input.down,
 				Input.left, Input.up, Input.right, Input.down, Input.left,
 				Input.up, Input.right, Input.right, Input.right, Input.right,
@@ -489,7 +524,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level25.txt", inputs);
 	}
 
-	public void testLevel26() throws IOException {
+	@Test
+	void testLevel26() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.up, Input.up, Input.left,
 				Input.left, Input.left, Input.down, Input.left, Input.left,
 				Input.left, Input.down, Input.right, Input.up, Input.right,
@@ -515,7 +551,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level26.txt", inputs);
 	}
 
-	public void testLevel27() throws IOException {
+	@Test
+	void testLevel27() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.right, Input.right,
 				Input.right, Input.right, Input.right, Input.up, Input.left,
 				Input.down, Input.right, Input.up, Input.right, Input.down,
@@ -534,7 +571,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level27.txt", inputs);
 	}
 
-	public void testLevel28() throws IOException {
+	@Test
+	void testLevel28() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.left, Input.down, Input.down,
 				Input.down, Input.right, Input.down, Input.left, Input.up,
 				Input.right, Input.down, Input.down, Input.right, Input.right,
@@ -559,7 +597,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level28.txt", inputs);
 	}
 
-	public void testLevel29() throws IOException {
+	@Test
+	void testLevel29() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.right, Input.up, Input.left,
 				Input.down, Input.left, Input.up, Input.right, Input.down,
 				Input.right, Input.down, Input.down, Input.right, Input.right,
@@ -584,7 +623,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level29.txt", inputs, true);
 	}
 
-	public void testLevel30() throws IOException {
+	@Test
+	void testLevel30() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.down, Input.right, Input.down,
 				Input.down, Input.right, Input.right, Input.up, Input.right,
 				Input.right, Input.down, Input.right, Input.right, Input.right,
@@ -612,7 +652,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level30.txt", inputs);
 	}
 
-	public void testLevel31() throws IOException {
+	@Test
+	void testLevel31() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.up, Input.left, Input.down,
 				Input.left, Input.left, Input.up, Input.up, Input.up, Input.up,
 				Input.down, Input.down, Input.down, Input.down, Input.right,
@@ -635,7 +676,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level31.txt", inputs);
 	}
 
-	public void testLevel32() throws IOException {
+	@Test
+	void testLevel32() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.up, Input.up, Input.left,
 				Input.down, Input.right, Input.up, Input.right, Input.up,
 				Input.right, Input.down, Input.left, Input.right, Input.up,
@@ -665,7 +707,8 @@ public class AStarSearchTest extends TestCase {
 		doTest("level32.txt", inputs);
 	}
 
-	public void testLevel33() throws IOException {
+	@Test
+	void testLevel33() throws IOException {
 		List<Input> inputs = Arrays.asList(Input.right, Input.right,
 				Input.right, Input.right, Input.up, Input.left, Input.down,
 				Input.down, Input.left, Input.up, Input.right, Input.up,
