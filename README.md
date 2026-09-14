@@ -4,10 +4,12 @@ moves -- matching the formally-verified optimum exactly (see [Comparison with bl
 below). The code was written in 2009 for the game as it was then (with 33 levels).
 
 # Algorithm
-The program uses a simple implementation of the [A*](https://en.wikipedia.org/wiki/A*_search_algorithm) graph traversal algorithm. The tricky bit was to model 
-the switches (which toggle the presence/absence of one or more tiles), as this effectively changes the shape of the graph being searched.
+The program attempts to use the [A*](https://en.wikipedia.org/wiki/A*_search_algorithm) graph traversal algorithm. The tricky bits were to model 
+the switches (which toggle the presence/absence of one or more tiles), as this effectively changes the shape of the graph being searched, and teleports, which it turns make it inpractical to implement an heuristic which is admissible for use by A* (explained below).
 
-## Heuristic (currently disabled)
+As it turns out that Breadth First Search (BFS) is more that sufficient for the number of states that have to be explored, and is much simpler and faster. As noted below, in the A* approach the heurstic had to be switched off, so the alogorithm is now logically the same as BFS, but with more overhead. The lesson here is always do the simplest thing first and see if it works, so leaving this repo as-is for prosperity.
+
+## Heuristic (disabled)
 
 `BloxPathComparator.cost()` holds a properly-scaled heuristic, kept but disabled
 (`BasePathComparator.dijkstraMode = true`, plain Dijkstra). It's inadmissible on
