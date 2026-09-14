@@ -1,7 +1,7 @@
 # bloxorz
-This is an attempt to (optimally) solve the bloxorz puzzle game using an algorithm. The solver currently solves all levels in 2000
+This is an attempt to (optimally) solve the bloxorz puzzle game using an algorithm, that I wrote on the bus to work over several weeks. The solver currently solves all levels in 2000
 moves -- matching the formally-verified optimum exactly (see [Comparison with bloxorz-aristotle](#comparison-with-bloxorz-aristotle)
-below). The code was written in 2009 for the game as it was then (with 33 levels).
+below). The code was written in 2009 for the game as it was then (with 33 levels). At that time the solver found a solution in 2002 moves.
 
 # Algorithm
 The program attempts to use the [A*](https://en.wikipedia.org/wiki/A*_search_algorithm) graph traversal algorithm. The tricky bits were to model 
@@ -49,6 +49,10 @@ Example:
     W2 closes p1
     W2 opens x3
     S1 opens x2
+
+# Move Counts
+
+Only Up, Down, Left, Right moves are counted, switches between blocks are (after a teleport the block is split into two small ones) are not counted. This is a practical limitation in transcribing from the real game rules, I could not be sure for every situation which of the two blocks would be active after a teleport. 
 
 # Validator / Runner
 
@@ -110,11 +114,7 @@ all 33 levels.
 
 # Update Log
 
-**Current total: 2000 moves** across all 33 levels, validated legal end-to-end --
-matches [bloxorz-aristotle](https://github.com/grahambarrgraham/bloxorz-aristotle)'s
-proven optimum exactly on all 33 levels.
-
-Fixes applied to reach this, most recent first:
+2026 - fixes applied:
 
 - **Eager switch resolution** (state-representation bug, cost level 15 two extra
   moves -- 59 vs. the proven-optimal 57). Switch application used to happen
